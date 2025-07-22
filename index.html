@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <title>CSS Animated Tennis</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="preload" href="images/Background.webp" as="image">
+    <link rel="preload" href="images/noise.webp" as="image">
 </head>
 <body> 
     <div class="info">
@@ -12,6 +14,9 @@
     </div>
 
     <div class="banner">
+        <div class="model"> 
+            <img alt="Model" class="lazy" data-src="images/model.svg">
+        </div>
         <div class="slider" style="--quantity: 10;">
             <a href="https://www.atptour.com/en/players/carlos-alcaraz/a0e2/overview" class="item" style ="--position: 1" target="_blank"><img src="images/alcaraz.webp" alt="Imagie numéro 1 de tennis"></a>
             <a href="https://www.atptour.com/en/players/novak-djokovic/d643/overview "class="item" style ="--position: 2" target="_blank"><img src="images/djokovic.webp" alt="Imagie numéro 1 de tennis"></a>
@@ -36,10 +41,8 @@
                 <p><b>Découvrez les champions</b></p>
             </div>
         </div>
-        <div class="model">
-        </div>
     </div>
 
-
+    <script src="app.js"></script>
 </body>
 </html>

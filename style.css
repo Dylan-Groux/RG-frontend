@@ -1,14 +1,21 @@
-@import url('https://fonts.cdnfonts.com/css/ica-rubrik-black');
-@import url('https://fonts.cdnfonts.com/css/poppins');
-@import url('https://fonts.cdnfonts.com/css/kosugi-maru');
+@font-face {
+    font-family: 'Poppins';
+    src: url(/fonts/Poppins-Regular.ttf) format('truetype');
+    font-weight: 700px;
+    font-style: normal;
+}
 
+@font-face {
+    font-family: 'Kosugi Maru';
+    src: url(/fonts/KosugiMaru-Regular.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
 
-/* Ajoute ceci en haut du fichier CSS */
 body {
     background: url('images/Background.webp') no-repeat center center fixed;
     background-size: cover;
     margin: 0;
-    min-height: 100vh;
 }
 
 a {
@@ -25,7 +32,7 @@ body::before {
     pointer-events: none;
     z-index: 9999;
     background: url('images/noise.webp') repeat;
-    opacity: 1; /* 40% de noise */
+    opacity: 1;
     mix-blend-mode: multiply;
 }
 
@@ -57,7 +64,7 @@ body::before {
 
 .banner {
     width: 100%;
-    height: 100vh;
+    height: 95vh;
     text-align: center;
     overflow: hidden;
     position: relative;
@@ -124,16 +131,20 @@ transition: transform 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
 .banner .content h1 {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 900;
-    font-size: 3em;
+    font-size: 6em;
     line-height: 1em;
     color: black;
     z-index: 3;
     align-self: flex-end;
+    text-shadow:
+        0 20px 8px rgba(0,0,0,0.18),
+        0 40px 24px rgba(0,0,0,0.12),
+        0 30px 0px #525252;
 }
 .banner .content h1 b {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Poppins', sans-serif;
     color: rgb(255, 255, 255);
     font-size: 0.8em;
     font-weight: 900;
@@ -141,7 +152,7 @@ transition: transform 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
 .banner .content .author {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Kosugi Maru', sans-serif;
     text-align: right;
     max-width: 400px;
     z-index: 3;
@@ -149,18 +160,25 @@ transition: transform 0.3s cubic-bezier(.25,.8,.25,1);
     margin-bottom: 4%;
 }
 
-.banner .model { 
-    background-image: url('images/model.webp');
+.banner .model img { 
     width: 100%;
-    margin-top: 10%;
     height: 100vh;
     position: absolute;
-    background-position: top center;
-    background-size: auto 100%;
-    background-repeat: no-repeat;
+    top: 15%;
+    left: 5%;
+    transform: translate(-50%, -50%);
     transform-origin: center;
     z-index: 1;
-    animation: modePulse 10s ease-in-out infinite;
+    will-change: transform;
+    animation: modePulse 10s infinite ease-in-out;
+}
+
+.model img {
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+.model img.lazy {
+    opacity: 0.2;
 }
 
 @keyframes modePulse {
@@ -177,11 +195,25 @@ transition: transform 0.3s cubic-bezier(.25,.8,.25,1);
 
 /* Responsive Media Queries */
 
-@media (max-width: 375px) {
+@media (max-width: 376px) {
     .banner .content h1 {
         position: relative;
-        left: -110px;
+        right: 50px;
+        font-size: 2.8em;
         transform: rotateZ(-270deg);
+    }
+
+    .banner .model img { 
+        width: 160%;
+        height: 110vh;
+        position: absolute;
+        top: 15%;
+        left: -5%;
+        transform: translate(-50%, -50%);
+        transform-origin: center;
+        z-index: 1;
+        will-change: transform;
+        animation: modePulse 10s infinite ease-in-out;
     }
 
     .banner .content h1 b {
@@ -189,37 +221,7 @@ transition: transform 0.3s cubic-bezier(.25,.8,.25,1);
     }
 
     .banner .content .author {
-        opacity: 0;
-    }
-
-    .info {
-        margin-bottom: 10%;
-    }
-}
-
-/* Small devices (phones, less than 600px) */
-@media (max-width: 600px) {
-
-    .banner .content {
-        padding: 0px 0px 1em 0px; /*  haute, droite, bas, gauche */
-    }
-
-    .banner .content h1 {
-        position: relative;
-        top: 250px;
-        margin-left: 4%;
-    }
-
-    .banner .content .author {
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            text-align: left;
-            max-width: 800px;
-            font-size: 0.6em;
-            z-index: 3;
-            align-self: flex-start;
-            margin-bottom: 25%;
-            margin-left: 7%;
+        display: none;
     }
 
     .info {
@@ -242,12 +244,92 @@ transition: transform 0.3s cubic-bezier(.25,.8,.25,1);
         left: calc(50% - 60px);
         top: 8%;
     }
-    
-    .banner .model {
-        width: 150%;
-        height: 100vh;
-        background-size: auto 100%;
-        margin-top: 25%;
+
+    .banner .slider .item {
+        transform: 
+        rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+        translateZ(290px);
+        cursor: pointer;
+    }
+
+    .banner .slider .item:hover {
+    transform:
+        scale(1.08)
+        rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
+        translateZ(290px);
+    z-index: 10;
+    transition: transform 0.9s cubic-bezier(.25,.8,.25,1);
+    }
+
+    @keyframes autoRun {
+    from {
+        transform: perspective(1000px) rotateX(-25deg) rotateY(0deg);
+    }
+    to {
+        transform: perspective(1000px) rotateX(-25deg) rotateY(360deg);
+    }
+    }
+}
+
+
+@media (min-width: 376px) and (max-width: 600px) {
+
+    .banner .content {
+        padding: 0px 0px 1em 0px; /*  haute, droite, bas, gauche */
+    }
+
+    .banner .content h1 {
+        position: relative;
+        right: 90px;
+        top: 100px;
+        font-size: 2.8em;
+        transform: rotateZ(-270deg);
+        text-shadow: none;
+    }
+
+    .banner .model img { 
+        width: 180%;
+        height: 110vh;
+        position: absolute;
+        top: 12%;
+        left: -14%;
+        transform: translate(-50%, -50%);
+        transform-origin: center;
+        z-index: 1;
+        will-change: transform;
+        animation: modePulse 10s infinite ease-in-out;
+    }
+
+
+    .banner .content .author {
+        font-family: 'Kosugi Maru', sans-serif;
+        font-weight: 600;
+        text-align: left;
+        max-width: 800px;
+        font-size: 0.6em;
+        z-index: 3;
+        align-self: flex-start;
+        margin-bottom: 10%;
+        margin-left: 17%;
+    }
+
+    .info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.4em;
+    }
+
+    .info:hover {
+        font-size: 0.5em;
+        border-radius: 24px;
+    }
+
+    .banner .slider {
+        width: 120px;
+        height: 150px;
+        left: calc(50% - 60px);
+        top: 12%;
     }
 
     .banner .slider .item {
@@ -268,10 +350,10 @@ transition: transform 0.3s cubic-bezier(.25,.8,.25,1);
 
     @keyframes autoRun {
     from {
-        transform: perspective(1000px) rotateX(-29deg) rotateY(0deg);
+        transform: perspective(1000px) rotateX(-23deg) rotateY(0deg);
     }
     to {
-        transform: perspective(1000px) rotateX(-29deg) rotateY(360deg);
+        transform: perspective(1000px) rotateX(-23deg) rotateY(360deg);
     }
     }
 }
@@ -293,22 +375,58 @@ transition: transform 0.3s cubic-bezier(.25,.8,.25,1);
     }
 
     .banner .content {
-        padding: 0px 0px 4em 4em; /*  haute, droite, bas, gauche */
+        padding: 0px 100px 1em 0px; /*  haute, droite, bas, gauche */
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+        margin-bottom: 10%;
+        height: 250px;
+        gap : 0;
     }
 
-    .author {
-        opacity: 0;
+    .banner .content .author {
+        font-family: 'Kosugi Maru', sans-serif;
+        font-weight: 600;
+        text-align: right;
+        max-width: 800px;
+        font-size: 0.8em;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-bottom: 0;
+        margin-left: -50px;
+    }
+
+    .banner .content h1 {
+        margin-bottom: 100px;
+        margin-top: 0px;
+        font-size: 3em;
+        transform: rotateZ(-270deg);
+        text-align: left;
+        text-shadow:
+            0 15px 0px #525252;
+    }
+
+    .banner .model img { 
+        width: 100%;
+        height: 110vh;
+        position: absolute;
+        top: 7%;
+        left: 14%;
+        transform: translate(-50%, -50%);
+        transform-origin: center;
+        z-index: 1;
+        will-change: transform;
+        animation: modePulse 10s infinite ease-in-out;
     }
 
     .banner .slider {
-        margin-top: 5%;
         width: 150px;
         height: 180px;
         left: calc(50% - 75px);
         top: 9%;
-    }
-    .banner .content h1 {
-        font-size: 4em;
     }
 
     .banner .model {
@@ -336,73 +454,79 @@ transition: transform 0.3s cubic-bezier(.25,.8,.25,1);
 
     @keyframes autoRun {
     from {
-        transform: perspective(1000px) rotateX(-26deg) rotateY(0deg);
+        transform: perspective(1000px) rotateX(-19deg) rotateY(0deg);
     }
     to {
-        transform: perspective(1000px) rotateX(-26deg) rotateY(360deg);
+        transform: perspective(1000px) rotateX(-19deg) rotateY(360deg);
     }
     }
 }
 
 /* Large devices (desktops, 900px and up) */
-@media (min-width: 901px) {
-    .banner .slider {
-        width: 200px;
-        height: 250px;
-        left: calc(50% - 100px);
-        top: 10%;
+@media (min-width: 901px)  and (max-width: 1441px) {
+    .info {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8em;
+        margin-bottom: 5%;
     }
 
+    .info:hover {
+        font-size: 0.9em;
+        border-radius: 24px;
+    }
+
+
+    .banner .slider {
+        width: 150px;
+        height: 180px;
+        left: calc(50% - 75px);
+        top: 9%;
+    }
+
+    .banner .content {
+        padding: 0 0 4% 0; /*  haute, droite, bas, gauche */
+        height: 250px;
+    }
+
+    .banner .content h1 {
+        margin-left: 6%;
+    }
+
+    .banner .content .author {
+        margin-right: 6%;
+    }
+
+    .banner .model {
+        width: 100%;
+        height: 100vh;
+        margin-top: 15%;
+        background-size: auto 100vh;
+        margin-left: 10%;
+    }
     .banner .slider .item {
         transform: 
         rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-        translateZ(450px);
+        translateZ(490px);
         cursor: pointer;
     }
-
     .banner .slider .item:hover {
     transform:
         scale(1.08)
         rotateY(calc( (var(--position) - 1) * (360 / var(--quantity)) * 1deg))
-        translateZ(450px);
+        translateZ(490px);
     z-index: 10;
     transition: transform 0.3s cubic-bezier(.25,.8,.25,1);
     }
 
-    
+
     @keyframes autoRun {
     from {
-        transform: perspective(1000px) rotateX(-26deg) rotateY(0deg);
+        transform: perspective(1000px) rotateX(-19deg) rotateY(0deg);
     }
     to {
-        transform: perspective(1000px) rotateX(-26deg) rotateY(360deg);
+        transform: perspective(1000px) rotateX(-19deg) rotateY(360deg);
     }
-}
-
-    .banner .content h1 {
-        font-size: 6em;
-    }
-
-    .banner .content .author {
-        font-family: 'Poppins', sans-serif;
-        font-weight: 500;
-        text-align: right;
-        max-width: 800px;
-        font-size: 1.3em;
-        z-index: 3;
-        align-self: flex-start;
-        margin-bottom: 0%;
-        margin-right: 7%;
-    }
-
-    .banner .content {
-        padding: 0px 0px 7% 7%; /*  haute, droite, bas, gauche */
-        font-size: 0.6em;
-    }
-    .banner .model {
-        height: 100vh;
-        background-size: auto 110%;
-        margin-top: 10%;
-        margin-left: 6%;
     }
 }
